@@ -1,0 +1,61 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user-specific metadata and settings.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique identifier for the user." },
+        "displayName": { "type": "string", "description": "User's full name." },
+        "email": { "type": "string", "description": "User's email address." },
+        "photoURL": { "type": "string", "description": "URL to user's profile picture." },
+        "streak": { "type": "number", "description": "Current practice streak." },
+        "lastSolvedDate": { "type": "string", "description": "ISO date of the last solved problem." }
+      },
+      "required": ["uid", "email"]
+    },
+    "Problem": {
+      "title": "Problem",
+      "description": "A DSA problem tracked by the user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string", "description": "Owner of the problem." },
+        "title": { "type": "string" },
+        "topic": { "type": "string" },
+        "difficulty": { "type": "string", "enum": ["Easy", "Medium", "Hard"] },
+        "status": { "type": "string", "enum": ["Solved", "Unsolved", "Revising"] },
+        "dateAdded": { "type": "string" },
+        "link": { "type": "string" }
+      },
+      "required": ["id", "uid", "title", "topic", "difficulty", "status", "dateAdded"]
+    },
+    "Note": {
+      "title": "Note",
+      "description": "A study note created by the user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string", "description": "Owner of the note." },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["id", "uid", "title", "content", "date"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "UserProfile",
+      "description": "User profile documents."
+    },
+    "/users/{uid}/problems/{problemId}": {
+      "schema": "Problem",
+      "description": "User's tracked problems."
+    },
+    "/users/{uid}/notes/{noteId}": {
+      "schema": "Note",
+      "description": "User's study notes."
+    }
+  }
+}
